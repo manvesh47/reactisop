@@ -1,23 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sqaure from './Sqaure';
 
 const Board = () => {
+  const [board, setboard] = useState(Array(9).fill(null));
+  const [isXNext, setIsXNext] = useState();
+  const handleSqaureClick = position => {
+    if (board[position]) {
+      return;
+    }
+    setboard(prev => {
+      return prev.map((sqaure, pos) => {
+        if (pos === position) {
+          return isXNext ? 'X' : 'O';
+        }
+        return sqaure;
+      });
+    });
+    setIsXNext(prev => !prev);
+  };
+
+  const renderSqaure = position => {
+    return (
+      <Sqaure
+        value={board[position]}
+        onClick={() => handleSqaureClick(position)}
+      />
+    );
+  };
   return (
     <div className="board">
       <div className="board-row">
-        <Sqaure value={0} />
-        <Sqaure value={1} />
-        <Sqaure value={2} />
+        {renderSqaure(0)}
+        {renderSqaure(1)}
+        {renderSqaure(2)}
       </div>
       <div className="board-row">
-        <Sqaure value={3} />
-        <Sqaure value={4} />
-        <Sqaure value={5} />
+        {renderSqaure(3)}
+        {renderSqaure(4)}
+        {renderSqaure(5)}
       </div>
       <div className="board-row">
-        <Sqaure value={6} />
-        <Sqaure value={7} />
-        <Sqaure value={8} />
+        {renderSqaure(6)}
+        {renderSqaure(7)}
+        {renderSqaure(8)}
       </div>
     </div>
   );
